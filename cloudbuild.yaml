@@ -9,7 +9,7 @@ steps:
   waitFor: ['build-image-${_SERVICE_NAME}']
 - name: 'gcr.io/cloud-builders/gcloud'
   args:
-  - 'function'
+  - 'run'
   - 'deploy'
   - '${_SERVICE_NAME}'
   - '--image'
