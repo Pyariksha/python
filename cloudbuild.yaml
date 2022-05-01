@@ -8,16 +8,16 @@ steps:
   id: 'push-image-to-container-registry'
   waitFor: ['build-image-${_SERVICE_NAME}']
 - name: 'gcr.io/cloud-builders/gcloud'
- args:
- — functions
- — deploy
- — — runtime=python39
- — — trigger-http
- — — source=app/. # Function source files
- — — entry-point=get_tweets_ikea # Function entry point
- — get_tweets_ikea # Function name
- waitFor: ['push-image-to-container-registry']
- id: 'deploying-a-serverless-function'
+  args:
+  — functions
+  — deploy
+  — — runtime=python39
+  — — trigger-http
+  — — source=app/. # Function source files
+  — — entry-point=get_tweets_ikea # Function entry point
+  — get_tweets_ikea # Function name
+  waitFor: ['push-image-to-container-registry']
+  id: 'deploying-a-serverless-function'
 images:
 - 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:latest'
 - 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$COMMIT_SHA'
