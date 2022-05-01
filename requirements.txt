@@ -1,0 +1,6 @@
+# Function dependencies, for example:
+# package>=version
+tweepy==4.8.0
+pandas==1.4.2
+pandas.io
+pandas_gbq
