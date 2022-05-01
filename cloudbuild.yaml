@@ -1,12 +1,4 @@
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:latest', '-t', 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$BUILD_ID', '.']
-  id: 'build-image-${_SERVICE_NAME}'
-  waitFor: ['-']  # The '-' indicates that this step begins immediately.
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$COMMIT_SHA']
-  id: 'push-image-to-container-registry'
-  waitFor: ['build-image-${_SERVICE_NAME}']
 - name: 'gcr.io/cloud-builders/gcloud'
   args:
   — functions
@@ -18,7 +10,4 @@ steps:
   — get_tweets_ikea # Function name
   waitFor: ['push-image-to-container-registry']
   id: 'deploying-a-serverless-function'
-images:
-- 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:latest'
-- 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$COMMIT_SHA'
-- 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$BUILD_ID'
+
