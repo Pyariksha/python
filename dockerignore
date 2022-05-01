@@ -1,0 +1,8 @@
+Dockerfile
+README.md
+*.pyc
+*.pyo
+*.pyd
+.idea
+venv
+__pycache__
