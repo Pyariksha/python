@@ -1,13 +1,19 @@
 steps:
-- name: 'gcr.io/cloud-builders/docker'
+"""- name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:latest', '-t', 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$BUILD_ID', '.']
   id: 'build-image-${_SERVICE_NAME}'
   waitFor: ['-']  # The '-' indicates that this step begins immediately.
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$COMMIT_SHA']
   id: 'push-image-to-container-registry'
-  waitFor: ['build-image-${_SERVICE_NAME}']
-images:
+  waitFor: ['build-image-${_SERVICE_NAME}']"""
+- name: 'python'
+  args: ['pip3','install', '-r', 'requirements.txt', '--user']
+# Create a task for each function as shown here: https://cloud.google.com/functions/docs/bestpractices/testing#continuous_testing_and_deployment
+- name: 'gcr.io/cloud-builders/gcloud']
+    id: 'deployMyFunction'
+  args: ['functions', 'deploy', 'my-function', '--source' , 'app/ikea_tweets_api.py', '--runtime' , 'python37' ,'--trigger-http']
+"""images:
 - 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:latest'
 - 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$COMMIT_SHA'
-- 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$BUILD_ID'
+- 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$BUILD_ID'"""
